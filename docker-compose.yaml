@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+  mongo:
+    container_name: mongo
+    image: mongo:latest
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - ./backup:/backup
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
+
+  mongo-express:
+    container_name: mongo-express
+    depends_on:
+      - mongo
+    image: mongo-express:latest
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_URL: "mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongo:27017/"
+      ME_CONFIG_BASICAUTH_USERNAME: ${ME_CONFIG_BASICAUTH_USERNAME}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${ME_CONFIG_BASICAUTH_PASSWORD}
+
+  backend:
+    build: ./phonebook-app
+    restart: always
+    command: npm run start:dev
+    volumes:
+      - ./phonebook-app:/usr/app/
+    ports:
+      - 3000:3000
+
+  frontend:
+    build: ./frontend
+    restart: always
+    command: npm run start
+    volumes:
+      - ./frontend:/app
+    ports:
+      - 3001:3000
