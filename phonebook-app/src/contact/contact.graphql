@@ -1,0 +1,25 @@
+type Contact {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
+}
+
+type Query {
+  getContacts: [Contact!]!
+}
+
+input AddContactInput {
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
+}
+
+input DeleteContactInput {
+  id: ID!
+}
+
+type Mutation {
+  addContact(args: AddContactInput!): Contact!
+  deleteContact(args: DeleteContactInput!): Contact!
+}
