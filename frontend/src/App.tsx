@@ -7,6 +7,7 @@ import Contact from "./components/contact/Contact";
 import React from "react";
 import { useQuery, gql } from "@apollo/client";
 import { TContact } from "./components/contact/Contact.dto";
+import AddContactModal from "./components/contact/AddContactModal";
 
 const GET_CONTACTS = gql`
   query GetContacts {
@@ -74,6 +75,8 @@ const App = () => {
   const [searchInput, setSearchInput] = React.useState("");
   const { loading, error, data } = useQuery(GET_CONTACTS);
 
+  const [addContactModalState, setAddContactModalState] = React.useState(false);
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
@@ -86,7 +89,10 @@ const App = () => {
 
       <AddContactsContainer>
         <Subtitle>Contacts</Subtitle>
-        <Button variant="contained">
+        <Button
+          variant="contained"
+          onClick={() => setAddContactModalState(true)}
+        >
           <b>+ Add Contact</b>
         </Button>
       </AddContactsContainer>
@@ -109,6 +115,11 @@ const App = () => {
             />
           ))}
       </ContactsContainer>
+
+      <AddContactModal
+        open={addContactModalState}
+        onClose={() => setAddContactModalState(false)}
+      />
     </Container>
   );
 };
