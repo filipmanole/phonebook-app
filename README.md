@@ -34,5 +34,6 @@ _Default configurations_:
 
 ## Improvements
 
-- Generate types for frontend based on the GraphQL schemas
-- Write unit tests for frontend and backend to increase the maintainability
+- Phone number validation. At this moment you can enter any string as the phone number for a new contact.
+- Generate types for frontend based on the GraphQL schemas.
+- Write unit tests for frontend and backend to increase maintainability.
