@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PhoneIcon from "@mui/icons-material/Phone";
+import React from "react";
+import UpdateContactModal from "./UpdateContactModal";
 
 const ContactContainer = styled.div`
   display: flex;
@@ -8,6 +10,8 @@ const ContactContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 15px;
+
+  cursor: pointer;
 `;
 
 const ContactDetailsContainer = styled.div``;
@@ -45,25 +49,41 @@ type ContactProps = {
   lastName: string;
   phoneNumber: string;
   last: boolean;
-  delete: () => void;
+  deleteContact: () => void;
 };
 
-const Contact = (props: ContactProps) => {
+const Contact = ({
+  id,
+  firstName,
+  lastName,
+  phoneNumber,
+  last,
+  deleteContact,
+}: ContactProps) => {
+  const [updateContactModalState, setUpdateContactModalState] =
+    React.useState(false);
+
   return (
     <>
-      <ContactContainer>
+      <ContactContainer onClick={() => setUpdateContactModalState(true)}>
         <ContactDetailsContainer>
-          <ContactName>{props.firstName + " " + props.lastName}</ContactName>
+          <ContactName>{firstName + " " + lastName}</ContactName>
           <ContactPhoneNumberContainer>
             <PhoneIcon />
-            <ContactPhoneNumber>{props.phoneNumber}</ContactPhoneNumber>
+            <ContactPhoneNumber>{phoneNumber}</ContactPhoneNumber>
           </ContactPhoneNumberContainer>
         </ContactDetailsContainer>
-        <DeleteButonContainer onClick={() => props.delete()}>
+        <DeleteButonContainer onClick={() => deleteContact()}>
           <DeleteIcon style={{ color: "white" }} />
         </DeleteButonContainer>
       </ContactContainer>
-      {!props.last && <hr />}
+
+      <UpdateContactModal
+        contact={{ id, firstName, lastName, phoneNumber }}
+        open={updateContactModalState}
+        onClose={() => setUpdateContactModalState(false)}
+      />
+      {!last && <hr />}
     </>
   );
 };

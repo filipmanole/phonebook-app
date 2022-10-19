@@ -4,6 +4,7 @@ import {
   Contact,
   DeleteContactInput,
   IQuery,
+  UpdateContactInput,
 } from 'src/graphql';
 import { ContactService } from './contact.service';
 
@@ -27,5 +28,12 @@ export class ContactResolver implements IQuery {
     @Args('args') args: DeleteContactInput,
   ): Contact | Promise<Contact> {
     return this.contactService.deleteContact(args);
+  }
+
+  @Mutation()
+  updateContact(
+    @Args('args') args: UpdateContactInput,
+  ): Contact | Promise<Contact> {
+    return this.contactService.updateContact(args);
   }
 }

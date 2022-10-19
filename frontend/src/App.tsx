@@ -100,7 +100,7 @@ const App = () => {
 
   const [addContactModalState, setAddContactModalState] = React.useState(false);
 
-  const handleDelete = async (id: string) => {
+  const handleDeleteContact = async (id: string) => {
     try {
       await deleteContact({
         variables: {
@@ -152,7 +152,7 @@ const App = () => {
                 lastName={contact.lastName}
                 phoneNumber={contact.phoneNumber}
                 last={index === array.length - 1}
-                delete={() => handleDelete(contact.id)}
+                deleteContact={() => handleDeleteContact(contact.id)}
               />
             ))}
         </ContactsContainer>
