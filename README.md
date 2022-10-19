@@ -23,14 +23,14 @@ There are 4 docker containers:
    ```sh
    docker-compose up
    ```
-4. Go to [localhost:8080](localhost:8080) and test the app.
+4. Go to [http://localhost:8080](http://localhost:8080) and test the app.
 
 _Default configurations_:
 
 - Mongo database is running on port `21017` with the username and password set as `root`
-- Mongo express is available at [localhost:8081]() with the username and password set as `root`
-- The frontend interface is available at [localhost:8080](localhost:8080)
-- The backend api runs on port `3000` and the GraphQL port is accessible at [localhost:3000/graphQL](localhost:3000/graphQL)
+- Mongo express is available at [http://localhost:8081](http://localhost:8081) with the username and password set as `root`
+- The frontend interface is available at [http://localhost:8080](http://localhost:8080)
+- The backend api runs on port `3000` and the GraphQL port is accessible at [http://localhost:3000/graphQL](http://localhost:3000/graphQL)
 
 ## Improvements
 
