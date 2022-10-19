@@ -7,7 +7,7 @@ const ContactContainer = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 8px;
+  padding: 15px;
 `;
 
 const ContactDetailsContainer = styled.div``;
@@ -21,7 +21,6 @@ const ContactPhoneNumberContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
   color: grey;
 `;
 const ContactPhoneNumber = styled.div`
@@ -36,9 +35,12 @@ const DeleteButonContainer = styled.div`
   background-color: #b03e3e;
   padding: 8px;
   border-radius: 5px;
+
+  cursor: pointer;
 `;
 
 type ContactProps = {
+  id: string;
   firstName: string;
   lastName: string;
   phoneNumber: string;
@@ -46,27 +48,14 @@ type ContactProps = {
 };
 
 const Contact = (props: ContactProps) => {
-  const formatPhoneNumber = (phoneNumber: string) =>
-    phoneNumber.length === 10
-      ? phoneNumber.slice(0, 3) +
-        "-" +
-        phoneNumber.slice(3, 6) +
-        "-" +
-        phoneNumber.slice(6)
-      : phoneNumber;
-
   return (
     <>
       <ContactContainer>
         <ContactDetailsContainer>
-          <ContactName>
-            {"" + props.firstName + " " + props.lastName}
-          </ContactName>
+          <ContactName>{props.firstName + " " + props.lastName}</ContactName>
           <ContactPhoneNumberContainer>
             <PhoneIcon />
-            <ContactPhoneNumber>
-              {formatPhoneNumber(props.phoneNumber)}
-            </ContactPhoneNumber>
+            <ContactPhoneNumber>{props.phoneNumber}</ContactPhoneNumber>
           </ContactPhoneNumberContainer>
         </ContactDetailsContainer>
         <DeleteButonContainer>

@@ -28,6 +28,7 @@ services:
       ME_CONFIG_BASICAUTH_PASSWORD: ${ME_CONFIG_BASICAUTH_PASSWORD}
 
   backend:
+    container_name: backend
     build: ./phonebook-app
     restart: always
     command: npm run start:dev
@@ -37,6 +38,7 @@ services:
       - 3000:3000
 
   frontend:
+    container_name: frontend
     build: ./frontend
     restart: always
     command: npm run start
@@ -44,3 +46,5 @@ services:
       - ./frontend:/app
     ports:
       - 3001:3000
+    environment:
+      WDS_SOCKET_PORT: 0

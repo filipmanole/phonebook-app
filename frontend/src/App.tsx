@@ -5,6 +5,18 @@ import styled from "styled-components";
 import Searchbar from "./components/searchbar/Searchbar";
 import Contact from "./components/contact/Contact";
 import React from "react";
+import { useQuery, gql } from "@apollo/client";
+
+const GET_CONTACTS = gql`
+  query GetContacts {
+    getContacts {
+      id
+      firstName
+      lastName
+      phoneNumber
+    }
+  }
+`;
 
 const Container = styled.div`
   position: absolute;
@@ -59,11 +71,32 @@ const ContactsContainer = styled.div`
 
 const App = () => {
   const [searchInput, setSearchInput] = React.useState("");
+  const { loading, error, data } = useQuery(GET_CONTACTS);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
+
+  console.log(data);
 
   const contacts = [
-    { firstName: "Filip", lastName: "Manole", phoneNumber: "0723271370" },
-    { firstName: "Filipe", lastName: "Manolee", phoneNumber: "0723271370" },
-    { firstName: "Filiperr", lastName: "Manoliee", phoneNumber: "0723271370" },
+    {
+      id: "1",
+      firstName: "Filip",
+      lastName: "Manole",
+      phoneNumber: "0723271370",
+    },
+    {
+      id: "2",
+      firstName: "Filipe",
+      lastName: "Manolee",
+      phoneNumber: "0723271370",
+    },
+    {
+      id: "3",
+      firstName: "Filiperr",
+      lastName: "Manoliee",
+      phoneNumber: "0723271370",
+    },
   ];
 
   return (
@@ -89,6 +122,7 @@ const App = () => {
           .filter((contact) => contact.lastName.includes(searchInput))
           .map((contact, index, array) => (
             <Contact
+              id={contact.id}
               firstName={contact.firstName}
               lastName={contact.lastName}
               phoneNumber={contact.phoneNumber}
