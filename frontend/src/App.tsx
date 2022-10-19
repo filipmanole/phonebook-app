@@ -5,31 +5,10 @@ import styled from "styled-components";
 import Searchbar from "./components/searchbar/Searchbar";
 import Contact from "./components/contact/Contact";
 import React from "react";
-import { useQuery, gql, useMutation } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { TContact } from "./components/contact/Contact.dto";
 import AddContactModal from "./components/contact/AddContactModal";
-
-const GET_CONTACTS = gql`
-  query GetContacts {
-    getContacts {
-      id
-      firstName
-      lastName
-      phoneNumber
-    }
-  }
-`;
-
-const DELETE_CONTACT = gql`
-  mutation DeleteContact($id: ID!) {
-    deleteContact(args: { id: $id }) {
-      id
-      firstName
-      lastName
-      phoneNumber
-    }
-  }
-`;
+import { DELETE_CONTACT, GET_CONTACTS } from "./components/contact/contact.gql";
 
 const Container = styled.div`
   position: absolute;
@@ -75,8 +54,6 @@ const AddContactsContainer = styled.div`
   justify-content: space-between;
 `;
 
-const SearchContactsContainer = styled.div``;
-
 const ContactsContainer = styled.div`
   border-radius: 5px;
   border: 1px solid grey;
@@ -84,18 +61,19 @@ const ContactsContainer = styled.div`
 
 const App = () => {
   const [searchInput, setSearchInput] = React.useState("");
-  const { loading, error, data, refetch } = useQuery(GET_CONTACTS);
-  const filteredData = data?.getContacts?.filter((contact: TContact) =>
-    contact.lastName.includes(searchInput)
+  const {
+    loading: getContactsLoading,
+    error: getContactsError,
+    data: getContactsData,
+    refetch: refetchContacts,
+  } = useQuery(GET_CONTACTS);
+  const filteredData = getContactsData?.getContacts?.filter(
+    (contact: TContact) => contact.lastName.includes(searchInput)
   );
 
   const [
     deleteContact,
-    {
-      data: deleteContactData,
-      loading: deleteContactLoading,
-      error: deleteContactError,
-    },
+    { loading: deleteContactLoading, error: deleteContactError },
   ] = useMutation(DELETE_CONTACT);
 
   const [addContactModalState, setAddContactModalState] = React.useState(false);
@@ -108,14 +86,14 @@ const App = () => {
         },
       });
 
-      refetch();
+      refetchContacts();
     } catch (err) {
       console.log(err);
     }
   };
 
-  if (loading || deleteContactLoading) return <p>Loading...</p>;
-  if (error || deleteContactError) return <p>Error :(</p>;
+  if (getContactsLoading || deleteContactLoading) return <p>Loading...</p>;
+  if (getContactsError || deleteContactError) return <p>Error :(</p>;
 
   return (
     <Container>
@@ -134,17 +112,12 @@ const App = () => {
         </Button>
       </AddContactsContainer>
 
-      <SearchContactsContainer>
-        <Searchbar onChange={(input) => setSearchInput(input)} />
-      </SearchContactsContainer>
+      <Searchbar onChange={(input) => setSearchInput(input)} />
 
       {filteredData?.length !== 0 ? (
         <ContactsContainer>
-          {data.getContacts
-            .filter((contact: TContact) =>
-              contact.lastName.includes(searchInput)
-            )
-            .map((contact: TContact, index: number, array: TContact[]) => (
+          {filteredData.map(
+            (contact: TContact, index: number, array: TContact[]) => (
               <Contact
                 key={contact.id}
                 id={contact.id}
@@ -154,16 +127,19 @@ const App = () => {
                 last={index === array.length - 1}
                 deleteContact={() => handleDeleteContact(contact.id)}
               />
-            ))}
+            )
+          )}
         </ContactsContainer>
       ) : (
-        "No contacts to show ..."
+        <TitleContainer>
+          <Subtitle>No contacts to show ...</Subtitle>
+        </TitleContainer>
       )}
 
       <AddContactModal
         open={addContactModalState}
         onClose={() => {
-          refetch();
+          refetchContacts();
           setAddContactModalState(false);
         }}
       />

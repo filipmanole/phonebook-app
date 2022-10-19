@@ -2,7 +2,7 @@ import { InputBase } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 
-const Search = styled("div")(({ theme }) => ({
+const Search = styled("div")(() => ({
   border: "1px solid grey",
   borderRadius: "5px",
   position: "relative",
