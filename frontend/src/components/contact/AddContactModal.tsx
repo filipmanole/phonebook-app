@@ -1,5 +1,30 @@
+import { gql } from "@apollo/client";
 import { Button, Modal, TextField, Typography } from "@mui/material";
 import styled from "styled-components";
+import { useMutation } from "@apollo/client";
+import React from "react";
+import { TContact } from "./Contact.dto";
+
+const ADD_CONTACT = gql`
+  mutation AddContact(
+    $firstName: String!
+    $lastName: String!
+    $phoneNumber: String!
+  ) {
+    addContact(
+      args: {
+        firstName: $firstName
+        lastName: $lastName
+        phoneNumber: $phoneNumber
+      }
+    ) {
+      id
+      firstName
+      lastName
+      phoneNumber
+    }
+  }
+`;
 
 type AddContactModalProps = {
   open: boolean;
@@ -26,6 +51,34 @@ const ModalContainer = styled.div`
 `;
 
 const AddContactModal = ({ open, onClose }: AddContactModalProps) => {
+  const [addContact, { data, loading, error }] = useMutation(ADD_CONTACT);
+
+  const [firstName, setFirstName] = React.useState("");
+  const [lastName, setLastName] = React.useState("");
+  const [phoneNumber, setPhoneNumber] = React.useState("");
+
+  const submitContact = async () => {
+    try {
+      await addContact({
+        variables: {
+          firstName,
+          lastName,
+          phoneNumber,
+        },
+      });
+
+      // if (res.data) addContactToArray(res.data.addContact);
+      // console.log(x.data);
+    } catch (err) {
+      console.log(err);
+    }
+
+    onClose();
+  };
+
+  if (loading) return <div>"Submitting..."</div>;
+  if (error) return <div>`Submission error! ${error.message}`</div>;
+
   return (
     <Modal open={open} onClose={onClose}>
       <ModalContainer>
@@ -33,11 +86,25 @@ const AddContactModal = ({ open, onClose }: AddContactModalProps) => {
           Insert contact details
         </Typography>
         <br />
-        <TextField label="First Name" variant="outlined" />
-        <TextField label="Last Name" variant="outlined" />
-        <TextField label="Phone Number" variant="outlined" />
+        <TextField
+          label="First Name"
+          variant="outlined"
+          onChange={(event) => setFirstName(event.target.value)}
+        />
+        <TextField
+          label="Last Name"
+          variant="outlined"
+          onChange={(event) => setLastName(event.target.value)}
+        />
+        <TextField
+          label="Phone Number"
+          variant="outlined"
+          onChange={(event) => setPhoneNumber(event.target.value)}
+        />
         <br />
-        <Button variant="contained">Create New Contact</Button>
+        <Button variant="contained" onClick={() => submitContact()}>
+          Create New Contact
+        </Button>
       </ModalContainer>
     </Modal>
   );

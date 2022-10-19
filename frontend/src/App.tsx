@@ -73,7 +73,7 @@ const ContactsContainer = styled.div`
 
 const App = () => {
   const [searchInput, setSearchInput] = React.useState("");
-  const { loading, error, data } = useQuery(GET_CONTACTS);
+  const { loading, error, data, refetch } = useQuery(GET_CONTACTS);
 
   const [addContactModalState, setAddContactModalState] = React.useState(false);
 
@@ -118,7 +118,10 @@ const App = () => {
 
       <AddContactModal
         open={addContactModalState}
-        onClose={() => setAddContactModalState(false)}
+        onClose={() => {
+          refetch();
+          setAddContactModalState(false);
+        }}
       />
     </Container>
   );
