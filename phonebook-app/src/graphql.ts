@@ -18,6 +18,13 @@ export class DeleteContactInput {
     id: string;
 }
 
+export class UpdateContactInput {
+    id: string;
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+}
+
 export class Contact {
     id: string;
     firstName: string;
@@ -33,6 +40,8 @@ export abstract class IMutation {
     abstract addContact(args: AddContactInput): Contact | Promise<Contact>;
 
     abstract deleteContact(args: DeleteContactInput): Contact | Promise<Contact>;
+
+    abstract updateContact(args: UpdateContactInput): Contact | Promise<Contact>;
 }
 
 type Nullable<T> = T | null;

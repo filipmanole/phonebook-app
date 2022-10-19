@@ -19,7 +19,15 @@ input DeleteContactInput {
   id: ID!
 }
 
+input UpdateContactInput {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
+}
+
 type Mutation {
   addContact(args: AddContactInput!): Contact!
   deleteContact(args: DeleteContactInput!): Contact!
+  updateContact(args: UpdateContactInput!): Contact!
 }
