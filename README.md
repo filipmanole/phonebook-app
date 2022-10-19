@@ -23,8 +23,9 @@ There are 4 docker containers:
    ```sh
    docker-compose up
    ```
-   typostypos
-   _Default configurations_:
+4. Go to [localhost:8080](localhost:8080) and test the app.
+
+_Default configurations_:
 
 - Mongo database is running on port `21017` with the username and password set as `root`
 - Mongo express is available at [localhost:8081]() with the username and password set as `root`
