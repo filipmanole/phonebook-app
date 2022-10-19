@@ -6,7 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 const client = new ApolloClient({
-  uri: "http://localhost:3000/graphql",
+  uri: `http://localhost:${process.env.REACT_APP_BACKEND_PORT}/graphql`,
   cache: new InMemoryCache(),
 });
 

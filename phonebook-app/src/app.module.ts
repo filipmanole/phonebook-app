@@ -9,7 +9,9 @@ import { join } from 'path';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://root:root@mongo:27017/'),
+    MongooseModule.forRoot(
+      `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@mongo:27017/`,
+    ),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       typePaths: ['./**/*.graphql'],
