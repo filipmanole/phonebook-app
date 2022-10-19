@@ -19,7 +19,6 @@ export class ContactResolver implements IQuery {
 
   @Mutation()
   addContact(@Args('args') args: AddContactInput): Contact | Promise<Contact> {
-    console.log('entered...');
     return this.contactService.createContact(args);
   }
 
