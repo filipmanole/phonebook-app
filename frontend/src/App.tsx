@@ -6,6 +6,7 @@ import Searchbar from "./components/searchbar/Searchbar";
 import Contact from "./components/contact/Contact";
 import React from "react";
 import { useQuery, gql } from "@apollo/client";
+import { TContact } from "./components/contact/Contact.dto";
 
 const GET_CONTACTS = gql`
   query GetContacts {
@@ -76,29 +77,6 @@ const App = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  console.log(data);
-
-  const contacts = [
-    {
-      id: "1",
-      firstName: "Filip",
-      lastName: "Manole",
-      phoneNumber: "0723271370",
-    },
-    {
-      id: "2",
-      firstName: "Filipe",
-      lastName: "Manolee",
-      phoneNumber: "0723271370",
-    },
-    {
-      id: "3",
-      firstName: "Filiperr",
-      lastName: "Manoliee",
-      phoneNumber: "0723271370",
-    },
-  ];
-
   return (
     <Container>
       <TitleContainer>
@@ -118,10 +96,11 @@ const App = () => {
       </SearchContactsContainer>
 
       <ContactsContainer>
-        {contacts
-          .filter((contact) => contact.lastName.includes(searchInput))
-          .map((contact, index, array) => (
+        {data.getContacts
+          .filter((contact: TContact) => contact.lastName.includes(searchInput))
+          .map((contact: TContact, index: number, array: TContact[]) => (
             <Contact
+              key={contact.id}
               id={contact.id}
               firstName={contact.firstName}
               lastName={contact.lastName}
