@@ -23,15 +23,15 @@ There are 4 docker containers:
    ```sh
    docker-compose up
    ```
-
-_Default configurations_:
+   typostypos
+   _Default configurations_:
 
 - Mongo database is running on port `21017` with the username and password set as `root`
-- Mongo express is abailable at [localhost:8081]() with the username and password set as `root`
+- Mongo express is available at [localhost:8081]() with the username and password set as `root`
 - The frontend interface is available at [localhost:8080](localhost:8080)
-- The backend api runs on port `3000` and the GraphQL port is accesible at [localhost:3000/graphQL](localhost:3000/graphQL)
+- The backend api runs on port `3000` and the GraphQL port is accessible at [localhost:3000/graphQL](localhost:3000/graphQL)
 
 ## Improvements
 
 - Generate types for frontend based on the GraphQL schemas
-- Write unit tests for frontend and backend to increase the maintability
+- Write unit tests for frontend and backend to increase the maintainability
