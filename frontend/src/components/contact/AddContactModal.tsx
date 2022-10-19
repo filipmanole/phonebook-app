@@ -3,7 +3,6 @@ import { Button, Modal, TextField, Typography } from "@mui/material";
 import styled from "styled-components";
 import { useMutation } from "@apollo/client";
 import React from "react";
-import { TContact } from "./Contact.dto";
 
 const ADD_CONTACT = gql`
   mutation AddContact(

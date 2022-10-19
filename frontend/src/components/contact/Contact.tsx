@@ -45,6 +45,7 @@ type ContactProps = {
   lastName: string;
   phoneNumber: string;
   last: boolean;
+  delete: () => void;
 };
 
 const Contact = (props: ContactProps) => {
@@ -58,7 +59,7 @@ const Contact = (props: ContactProps) => {
             <ContactPhoneNumber>{props.phoneNumber}</ContactPhoneNumber>
           </ContactPhoneNumberContainer>
         </ContactDetailsContainer>
-        <DeleteButonContainer>
+        <DeleteButonContainer onClick={() => props.delete()}>
           <DeleteIcon style={{ color: "white" }} />
         </DeleteButonContainer>
       </ContactContainer>
