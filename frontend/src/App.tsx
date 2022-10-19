@@ -57,6 +57,13 @@ const AddContactsContainer = styled.div`
 const ContactsContainer = styled.div`
   border-radius: 5px;
   border: 1px solid grey;
+
+  max-height: 500px;
+  overflow: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const App = () => {
